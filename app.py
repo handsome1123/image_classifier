@@ -19,8 +19,7 @@ print("TensorFlow version:", tf.__version__)
 with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
     
-# Set title
-st.title("Image Classification with MobileNetV2 by Saw San Nyunt Win")
+# Set titlest.title("Image Classification with MobileNetV2 by Ei Thazin Tun")
 
 # File upload
 upload_file = st.file_uploader("Upload image:", type=["jpg", "jpeg", "png"])
