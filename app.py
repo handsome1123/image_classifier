@@ -11,37 +11,36 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import pickle
-
 import tensorflow as tf
+
 print("TensorFlow version:", tf.__version__)
 
-
-#load modal
-with open('model.pkl','rb') as f:
+# Load model
+with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
     
-#set title application 
+# Set title
 st.title("Image Classification with MobileNetV2 by Saw San Nyunt Win")
 
-#file upload
-upload_file = st.file_uploader("Upload image:",type=["jpg","jpeg","png"])
+# File upload
+upload_file = st.file_uploader("Upload image:", type=["jpg", "jpeg", "png"])
 
 if upload_file is not None:
-    #display image on screen
+    # Display uploaded image
     img = Image.open(upload_file)
-    st.image(image, caption="Upload Image")
-    
-    #preprocessing
-    img = img.resize(224, 224)
+    st.image(img, caption="Uploaded Image")  # <-- FIXED LINE
+
+    # Preprocessing
+    img = img.resize((224, 224))  # ensure size is a tuple
     x = image.img_to_array(img)
-    x = np.expand_dims(x,axis=0)
+    x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
-    
-    #prediction
+
+    # Prediction
     preds = model.predict(x)
     top_preds = decode_predictions(preds, top=3)[0]
-    
-    #display prediction
-    st.subheader("Prediction: ")
+
+    # Display predictions
+    st.subheader("Prediction:")
     for i, pred in enumerate(top_preds):
-        st.write(f"{i+1}. **{pred[1]}** - {round(pred[2]*100,2)}%")
+        st.write(f"{i+1}. **{pred[1]}** - {round(pred[2]*100, 2)}%")
